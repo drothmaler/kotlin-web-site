@@ -62,3 +62,13 @@
   description: Solr Standalone Tiny and High performant server
   type: Application
   link: https://github.com/bremeld/solr-undertow
+
+- name: Yested
+  description: A Web Framework
+  type: Framework
+  link: http://www.yested.net
+
+- name: Kotlin-Hashids
+  description: Library that generates short, unique, non-sequential hashes from numbers.
+  type: Library
+  link: http://hashids.org/kotlin/

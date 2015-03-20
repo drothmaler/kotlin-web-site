@@ -105,7 +105,7 @@ reference:
   - title: Reference
     description: API and Grammar
     content:
-      - /docs/api/index.html: API Reference
+      - /api/latest/jvm/stdlib/index.html: API Reference
       - /docs/reference/grammar.html: Grammar
 
 
@@ -118,7 +118,7 @@ reference:
     description:
     content:
 #      - /docs/reference/kotlin-build-tools.html: Kotlin Build Tools
-#      - /docs/reference/kotlin-doc.html: Kotlin Doc
+      - /docs/reference/kotlin-doc.html: Documenting Kotlin Code
       - /docs/reference/using-maven.html: Using Maven
       - /docs/reference/using-ant.html: Using Ant
       - /docs/reference/using-griffon.html: Using Griffon
@@ -153,6 +153,7 @@ tutorials:
   - title: Mobile
     content:
       - /docs/tutorials/kotlin-android.html: Getting Started With Android Development
+      - /docs/tutorials/android-plugin.html: Kotlin Android Extensions
   - title: Tools
     content:
       - /docs/tutorials/kotlin-and-ci.html: Setting up Kotlin on TeamCity

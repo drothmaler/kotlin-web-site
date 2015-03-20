@@ -9,10 +9,9 @@ title: "Returns and Jumps"
 
 Kotlin has three structural jump operators
 
-* *return*{: .keyword }. By default returns from the nearest enclosing function.
+* *return*{: .keyword }. By default returns from the nearest enclosing function or [function expression](lambdas.html#function-expressions).
 * *break*{: .keyword }. Terminates the nearest enclosing loop.
-* *continue*{: .keyword }. Proceeds to the next step of the nearest enclosing loop or to the next branch
-in the nearest enclosing [*when*{: .keyword }-expression](control-flow.html#when-expression)
+* *continue*{: .keyword }. Proceeds to the next step of the nearest enclosing loop.
 
 ## Break and Continue Labels
 
@@ -69,8 +68,8 @@ fun foo() {
 }
 ```
 
-Now, it returns only from the function literal. Often times it is more convenient to use implicits labels: 
-such a label has the same name as the function to which the lambda is passed:
+Now, it returns only from the function literal. Oftentimes it is more convenient to use implicits labels:
+such a label has the same name as the function to which the lambda is passed.
 
 ``` kotlin
 fun foo() {
@@ -78,6 +77,18 @@ fun foo() {
     if (it == 0) return@forEach
     print(it)
   }
+}
+```
+
+Alternatively, we can replace the function literal with a [function expression](lambdas.html#function-expressions).
+A *return*{: .keyword } statement in a function expression will return from the function expression itself.
+
+``` kotlin
+fun foo() {
+  ints.forEach(fun(value: Int) {
+    if (value == 0) return
+    print(value)
+  })
 }
 ```
 
@@ -89,7 +100,7 @@ return@a 1
 
 means "return `1` at label `@a`" and not "return a labeled expression `(@a 1)`".
 
-Named functions automatically define labels
+Named functions automatically define labels:
 
 ``` kotlin
 fun outer() {

@@ -321,13 +321,54 @@ At most one Java-class (and as many Java interfaces as you like) can be a supert
 
 ### Accessing static members
 
-Static members of Java classes form "class objects" for these classes. We cannot pass such a "class object" around as a value, but can access the members explicitly, for example
+Static members of Java classes form "companion objects" for these classes. We cannot pass such a "companion object" around as a value,
+but can access the members explicitly, for example
 
 ``` kotlin
 if (Character.isLetter(a)) {
   // ...
 }
 ```
+
+### Java Reflection
+
+Java reflection works on Kotlin classes and vice versa. As mentioned above, you can use `instance.javaClass` or 
+`javaClass<ClassName>()` to enter Java reflection through `java.lang.Class`. You can then "convert" to Kotlin reflection
+by calling `.kotlin`:
+ 
+``` kotlin 
+val kClass = x.javaClass.kotlin  
+```
+ 
+In much the same way you can convert from Kotlin reflection to Java: `ClassName::class.java` is the same as `javaClass<ClassName>()`.
+Other supported cases include acquiring a Java getter/setter method or a backing field for a Kotlin property, 
+getting a containing `KPackage` instance for a Java class, and getting a `KProperty` for a Java field.
+
+### SAM Conversions
+
+Just like Java 8, Kotlin supports SAM conversions. This means that Kotlin function literals can be automatically converted
+into implementations of Java interfaces with a single non-default method, as long as the parameter types of the interface
+method match the parameter types of the Kotlin function.
+
+You can use this for creating instances of SAM interfaces:
+
+``` kotlin
+val runnable = Runnable { println("This runs in a runnable") }
+```
+
+...and in method calls:
+
+``` kotlin
+val executor = ThreadPoolExecutor()
+// Java signature: void execute(Runnable command)
+executor.execute { println("This runs in a thread pool") }
+```
+
+Note that SAM conversions only work for interfaces, not for abstract classes, even if those also have just a single
+abstract method.
+
+Also note that this feature works only for Java interop; since Kotlin has proper function types, automatic conversion
+of functions into implementations of Kotlin traits is unnecessary and therefore unsupported.
 
 ## Calling Kotlin code from Java
 
@@ -358,11 +399,11 @@ For the root package (the one that's called a "default package" in Java), a clas
 ### Static Methods and Fields
 
 As mentioned above, Kotlin generates static methods for package-level functions. On top of that, it also generates static methods
-for functions defined in named objects or class objects of classes and annotated as `[platformStatic]`. For example:
+for functions defined in named objects or companion objects of classes and annotated as `[platformStatic]`. For example:
 
 ``` kotlin
 class C {
-  class object {
+  companion object {
     platformStatic fun foo() {}
     fun bar() {}
   }
@@ -483,4 +524,3 @@ This way we get a `NullPointerException` in the Java code immediately.
 ### Properties
 
 Property getters are turned into *get*-methods, and setters – into *set*-methods.
-
